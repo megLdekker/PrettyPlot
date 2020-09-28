@@ -70,8 +70,19 @@ var makeTranslateString = function(x,y)
 var drawAxes = function(graphDim,margins,
                          xScale,yScale)
 {
-   
- 
+    console.log(graphDim)
+    var xAxis = d3.axisBottom();
+    xAxis.scale(xScale)
+    d3.select("svg").append("g")
+    .attr("class","axis")
+    .attr("transform", "translate("+margins.left+"," + (graphDim.height+margins.top) + ")")
+    .call(xAxis)
+    var yAxis = d3.axisLeft();
+    yAxis.scale(yScale)
+    d3.select("svg").append("g")
+    .attr("class","axis")
+    .attr("transform", "translate("+margins.bottom+"," + margins.right + ")")
+    .call(yAxis)
 }
 
 
@@ -79,13 +90,47 @@ var drawAxes = function(graphDim,margins,
 //margins - objedct that stores the size of the margins
 var drawLabels = function(graphDim,margins)
 {
+    var labels = d3.select("svg")
+    .append("g")
+    .classed("labels",true)
     
+    labels.append("text")
+    .text("Trump Support")
+    .classed("title",true)
+    .attr("text-anchor","middle")
+    .attr("x", margins.left+(graphDim.width/2))
+    .attr("y", margins.top+(8))
+    
+    labels.append("text")
+    .text("Percent White")
+    .classed("label", true)
+    .attr("text-anchor", "middle")
+    .attr("x", margins.left+(graphDim.width/2))
+    .attr("y", margins.top+(graphDim.height)+(35))
+    
+    labels.append("text")
+        .text("Percentage Voting for Trump")
+        .classed("label", true)
+        .attr("text-anchor", "middle")
+        .attr("transform","translate(18," + (graphDim.height/2)+") rotate(270)")
 }
 
 
 var drawLegend = function(graphDim,margins)
 {
+    var legend = d3.select("svg")
+        .append("g")
+        .classed("legend",true)
+        .attr("transform","translate("+
+              (margins.left+ 10) +","+
+             (margins.top+10)+")");
     
+    var entries = legend.selectAll("g")
+    .data("")
+    .enter()
+    .append("g")
+    .classed("",true)
+    .attr("fill",function)
  
    var categories = [
        {
